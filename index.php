@@ -42,7 +42,7 @@ if (isset($_POST["ip"])) {
     </head>
     <body>
         <header onclick = "window.location=''">
-            <span id="ip">localhost</span>Moon IO
+            <img src="lib/icon.png" id="icon"><span id="home">Moon IO</span><span id="ip">localhost</span>
         </header>
         <div id="wrapper">
             <fieldset>
@@ -189,9 +189,9 @@ if (isset($_POST["ip"])) {
         }
         
         function addChatEntry(name, msg, time, type) {
+            var date = new Date(time);
+            var datestr = `${formatTime(date.getDate())}/${formatTime(date.getMonth())}/${date.getYear()} ${formatTime(date.getHours()%12)}:${formatTime(date.getMinutes())}:${formatTime(date.getSeconds())}${date.getHours()/12 > 0 ? 'PM':'AM'}`;
             if (type == 0) {
-                var date = new Date(time);
-                var datestr = `${formatTime(date.getDate())}/${formatTime(date.getMonth())}/${date.getYear()} ${formatTime(date.getHours()%12)}:${formatTime(date.getMinutes())}:${formatTime(date.getSeconds())}${date.getHours()/12 > 0 ? 'PM':'AM'}`;
                 $("#chatbox").append(`
                                      <div class='chatrow0'>
                                         <div class='user'>${name}</div>
@@ -200,7 +200,13 @@ if (isset($_POST["ip"])) {
                                      </div>
                                      `);
             } else if (type == 1) {
-                
+                $("#chatbox").append(`
+                                     <div class='chatrow'>
+                                        <div class='user'>${name}</div>
+                                        <div class='content'>${msg}</div>
+                                        <div class='time'>${datestr}</div>
+                                     </div>
+                                     `);
             }
         }
         function submitData() {
@@ -218,7 +224,6 @@ if (isset($_POST["ip"])) {
                 date: date.getTime()
             }, function(data, status) {
                 var json = JSON.parse(data);
-                console.log(json);
             });
         }
     </script>

@@ -27,6 +27,7 @@ if (isset($_POST["date"])) {
 }
 
 function initDB() {
+    global $host, $db, $user, $pw;
     $sql = "CREATE TABLE IF NOT EXISTS MoonChat(
         User varchar(64) NOT NULL,
         Message varchar(1024) NOT NULL,

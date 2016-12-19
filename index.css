@@ -10,7 +10,19 @@
 
 #ip {
     position: absolute;
+    right: 2%;
+}
+
+#icon {
+    filter: invert(1);
+    filter: -webkit-invert(1);
+    height: 5%;
+    position: absolute;
     left: 2%;
+}
+
+#home {
+    vertical-align: center;
 }
 
 html, body {
