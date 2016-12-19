@@ -27,4 +27,6 @@ if (isset($_POST["date"])) {
         }
         echo json_encode($arr);
     }
+} else if (isset($_POST["users"])) {
+    
 }

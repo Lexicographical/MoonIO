@@ -110,6 +110,7 @@ if (isset($_POST["ip"])) {
         });
         var lastDate = new Date();
         setInterval(retrieveData(), 50);
+        var username;
         function addFileInput() {
             var child1 = document.getElementById("f" + n);
             var child2 = document.createElement("input");
@@ -146,13 +147,14 @@ if (isset($_POST["ip"])) {
         function registerUser() {
             var name = $("#inputName").val();
             // authentication code here
+            // send AJAX to chatsql.php with users=true to validate username
             var auth = true;
             if (auth) {
                 $("#inputName").remove();
                 $("#register").remove();
                 $("#displayName").html(name);
                 $("#displayName").css("display", "block");
-                console.log(name);
+                username=name;
             } else {
                 alert("That username is already taken! Please try another.");
             }
@@ -163,14 +165,20 @@ if (isset($_POST["ip"])) {
         **/
         function addChatEntry(name, msg, time, type) {
             if (type == 0) {
-                
+                $("#chatbox").append(`
+                                     <div class='chatrow0'>
+                                        <div class='user'>${name}</div>
+                                        <div class='content'>${msg}</div>
+                                        <div class='time'>${time}</div>
+                                     </div>
+                                     `);
             } else if (type == 1) {
                 
             }
         }
         function submitData() {
             var txt = $("#input").value;
-            
+            addChatEntry()
         }
         function retrieveData() {
             var date = lastDate;
