@@ -10,7 +10,7 @@
 
 #ip {
     position: absolute;
-    left: 0;
+    left: 2%;
 }
 
 html, body {
@@ -32,7 +32,8 @@ header {
 }
 
 #wrapper {
-    display: flex;
+    display:flex;
+    display: -webkit-flex;
     align-content: space-between;
     margin-top: 5%;
 }
@@ -106,7 +107,8 @@ table {
 }
 
 #namebox {
-    display: flex;
+    display:flex;
+    display: -webkit-flex;
     flex-direction: row;
     border-bottom: none;
     background-color: #c8e6c9;
@@ -126,23 +128,45 @@ table {
     display: block;
 }
 
-.chatrow {
-    display: flex;
+.chatrow, .chatrow0 {
+    display:flex;
+    display: -webkit-flex;
     align-content: space-between;
     flex-direction: row;
+    background-color: #e0e0e0;
+}
+
+.chatrow0 {
+    background-color: #90caf9;
+}
+
+.chatrow0 .user {
+    color: yellow;
 }
 
 #inputbox {
     padding: 0;
-    display: flex;
-    align-content: space-between;
+    margin: 0;
+    display:flex;
+    display: -webkit-flex;
     flex-direction: row;
 }
 
 #input {
-    width: 90%;
+    width: 95%;
     resize: none;
-    left: 0;
+    padding: 0.5vh;
+    align-self: flex-start;
+    margin-left: 0;
+    margin-right: 0;
+    border: none;
+    border-right: solid 1px black;
+}
+
+#enter {
+    margin-left: 0;
+    margin-right: 0;
+    border: solid 1px black;
 }
 
 .content, .time, .user {

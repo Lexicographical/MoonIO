@@ -62,6 +62,7 @@ if (isset($_POST["ip"])) {
                     <p id="displayName">Placeholder</p>
                 </div>
                 <div id="chatbox">
+<!--
                     <div class="chatrow">
                         <div class="user">Bolt</div>
                         <div class="content">Sample Text</div>
@@ -72,6 +73,7 @@ if (isset($_POST["ip"])) {
                         <div class="content">Lorem ipsum dolor sit amet</div>
                         <div class="time">1:10</div>
                     </div>
+-->
                 </div>
                 <div id="inputbox">
                     <textarea id="input" rows="1" placeholder="Enter a message"></textarea>
@@ -105,6 +107,14 @@ if (isset($_POST["ip"])) {
         $("#input").keypress(function(e) {
            if (e.keyCode == 13 && !e.ctrlKey) {
                submitData();
+               e.preventDefault();
+           } 
+            return true;
+        });
+        $("#inputName").keypress(function(e) {
+           if (e.keyCode == 13 && !e.ctrlKey) {
+               registerUser();
+               e.preventDefault();
            } 
             return true;
         });
@@ -148,7 +158,15 @@ if (isset($_POST["ip"])) {
             var name = $("#inputName").val();
             // authentication code here
             // send AJAX to chatsql.php with users=true to validate username
-            var auth = true;
+            var auth = false;
+            $.post("chatsql.php", {
+               user: name 
+            }, function(data, status) {
+                var json = JSON.parse(data);
+                if (json) {
+                    auth = true;
+                }
+            });
             if (auth) {
                 $("#inputName").remove();
                 $("#register").remove();
@@ -163,13 +181,22 @@ if (isset($_POST["ip"])) {
         type: 0 - own message
         1 - received message
         **/
+        function formatTime(t) {
+            if (t < 10) {
+                return '0' + t;
+            }
+            return t;
+        }
+        
         function addChatEntry(name, msg, time, type) {
             if (type == 0) {
+                var date = new Date(time);
+                var datestr = `${formatTime(date.getDate())}/${formatTime(date.getMonth())}/${date.getYear()} ${formatTime(date.getHours()%12)}:${formatTime(date.getMinutes())}:${formatTime(date.getSeconds())}${date.getHours()/12 > 0 ? 'PM':'AM'}`;
                 $("#chatbox").append(`
                                      <div class='chatrow0'>
                                         <div class='user'>${name}</div>
                                         <div class='content'>${msg}</div>
-                                        <div class='time'>${time}</div>
+                                        <div class='time'>${datestr}</div>
                                      </div>
                                      `);
             } else if (type == 1) {
@@ -177,8 +204,13 @@ if (isset($_POST["ip"])) {
             }
         }
         function submitData() {
-            var txt = $("#input").value;
-            addChatEntry()
+            if (username == null) {
+                alert("Please register a username first!");
+                return;
+            }
+            var txt = $("#input").val();
+            addChatEntry(username, txt, new Date().getTime(), 0);
+            $("#input").val("");
         }
         function retrieveData() {
             var date = lastDate;
