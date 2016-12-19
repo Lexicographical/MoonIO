@@ -92,6 +92,10 @@ table {
     font-size: 1.3em;
 }
 
+#inputname, #input {
+    padding: 1%;
+}
+
 #chatbox, #inputbox, #namebox {
     border: solid 1px black;
     overflow-y: auto;
@@ -141,10 +145,15 @@ table {
     left: 0;
 }
 
-.content, .time {
+.content, .time, .user {
     padding: 1%;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.user {
+    color: green;
+    font-weight: bolder;
 }
 
 .content {
@@ -154,5 +163,13 @@ table {
 .time {
     width: 20%;
     text-align: right;
-    color: darkgreen;
+    color: #424242;
+    font-weight: bolder;
+}
+
+#displayName {
+    display: none;
+    font-size: 1.3em;
+    color: black;
+    font-weight: bolder;
 }

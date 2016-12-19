@@ -59,13 +59,16 @@ if (isset($_POST["ip"])) {
                 <div id="namebox">
                     <input type="text" maxlength="10" name="name" id="inputName" placeholder="Username">
                     <button onclick="registerUser()" id="register">Register</button>
+                    <p id="displayName">Placeholder</p>
                 </div>
                 <div id="chatbox">
                     <div class="chatrow">
+                        <div class="user">Bolt</div>
                         <div class="content">Sample Text</div>
                         <div class="time">1:00</div>
                     </div>
                     <div class="chatrow">
+                        <div class="user">Bolt</div>
                         <div class="content">Lorem ipsum dolor sit amet</div>
                         <div class="time">1:10</div>
                     </div>
@@ -140,8 +143,34 @@ if (isset($_POST["ip"])) {
             row.appendChild(tdsize);
             table.appendChild(row);
         }
+        function registerUser() {
+            var name = $("#inputName").val();
+            // authentication code here
+            var auth = true;
+            if (auth) {
+                $("#inputName").remove();
+                $("#register").remove();
+                $("#displayName").html(name);
+                $("#displayName").css("display", "block");
+                console.log(name);
+            } else {
+                alert("That username is already taken! Please try another.");
+            }
+        }
+        /**
+        type: 0 - own message
+        1 - received message
+        **/
+        function addChatEntry(name, msg, time, type) {
+            if (type == 0) {
+                
+            } else if (type == 1) {
+                
+            }
+        }
         function submitData() {
             var txt = $("#input").value;
+            
         }
         function retrieveData() {
             var date = lastDate;
@@ -149,6 +178,7 @@ if (isset($_POST["ip"])) {
                 date: date.getTime()
             }, function(data, status) {
                 var json = JSON.parse(data);
+                console.log(json);
             });
         }
     </script>
