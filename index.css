@@ -1,0 +1,158 @@
+@font-face{
+    font-family: Questrial;
+    src: url("/lib/Questrial.ttf");
+}
+
+* {
+    font-family: sans-serif;
+    font-family: Questrial;
+}
+
+#ip {
+    position: absolute;
+    left: 0;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #fff9c4;
+}
+
+header {
+    background-color: #4caf50;
+    text-align: center;
+    font-size: 3em;
+    color: white;
+    padding: 1%;
+    cursor: pointer;
+}
+
+#wrapper {
+    display: flex;
+    align-content: space-between;
+    margin-top: 5%;
+}
+
+fieldset {
+    width: 28%;
+    border: solid 1px black;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1%;
+    padding-top: 3%;
+    height: 70vh;
+    overflow-y: auto;
+}
+
+fieldset * {
+    margin: 3%;
+}
+
+legend {
+    font-size: 2em;
+}
+
+input {
+    display: block;
+}
+
+a {
+    display: block;
+    color: black;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+input {
+    font-size: 1.2em;
+}
+
+a:hover {
+    color: #00c853;
+}
+
+.size {
+    color: green;
+}
+
+#dltable * {
+    word-wrap: normal;
+}
+
+table {
+    font-size: 1.2em;
+    border: solid 1px black;
+}
+
+.title {
+    font-size: 1.3em;
+}
+
+#chatbox, #inputbox, #namebox {
+    border: solid 1px black;
+    overflow-y: auto;
+    width: 90%;
+    display:flex;
+    align-content: space-between;
+    margin: 0;
+}
+
+#namebox {
+    display: flex;
+    flex-direction: row;
+    border-bottom: none;
+    background-color: #c8e6c9;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    align-content: space-between;
+}
+
+#register {
+    font-size: 1.3em;
+}
+
+#chatbox {
+    height: 80%;
+    border-bottom: none;
+    background-color: white;
+    display: block;
+}
+
+.chatrow {
+    display: flex;
+    align-content: space-between;
+    flex-direction: row;
+}
+
+#inputbox {
+    padding: 0;
+    display: flex;
+    align-content: space-between;
+    flex-direction: row;
+}
+
+#input {
+    width: 90%;
+    resize: none;
+    left: 0;
+}
+
+.content, .time {
+    padding: 1%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.content {
+    width: 80%;
+}
+
+.time {
+    width: 20%;
+    text-align: right;
+    color: darkgreen;
+}
