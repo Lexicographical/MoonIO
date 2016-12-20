@@ -20,7 +20,7 @@ if (isset($_POST["ip"])) {
         }
     }
     $files = scandir($dir);
-    $script = "<script>window.setTimeout(function(){\n";
+    $script = "<script>window.onload = function(){\n";
     foreach ($files as $file) {
         if ($file == "." || $file == ".." || $file == "index.html") {
             continue;
@@ -28,7 +28,7 @@ if (isset($_POST["ip"])) {
         $fs = filesize($dir.$file);
         $script .= "addFileDownload('$file', $fs);\n";
     }
-    $script .= "}, 1000);</script>";
+    $script .= "};</script>";
     echo $script;
 }
 ?>
@@ -39,6 +39,11 @@ if (isset($_POST["ip"])) {
         <title>Moon IO</title>
         <link rel = "stylesheet" type = "text/css" href = "index.css">
         <script src="/lib/jquery.js"></script>
+        <script>
+//            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+//                window.location="/m";
+//            }
+        </script>
     </head>
     <body>
         <header onclick = "window.location=''">
@@ -156,38 +161,40 @@ if (isset($_POST["ip"])) {
         }
         function registerUser() {
             var name = $("#inputName").val();
-            // authentication code here
-            // send AJAX to chatsql.php with users=true to validate username
             var auth = false;
             $.post("chatsql.php", {
-               user: name 
+                action: "register",
+                name: name 
             }, function(data, status) {
-                var json = JSON.parse(data);
-                if (json) {
-                    auth = true;
+                console.log(data);
+                auth = data == 1 ? true : false;
+                if (auth) {
+                    $("#inputName").remove();
+                    $("#register").remove();
+                    $("#displayName").html(name);
+                    $("#displayName").css("display", "block");
+                    username=name;
+                    setInterval(function() {
+                       $.post("chatsql.php", {
+                            action: "keepAlive",
+                            name: name
+                       });
+                    }, 10*1000);
+                } else {
+                    alert("That username is already taken! Please try another.");
                 }
             });
-            if (auth) {
-                $("#inputName").remove();
-                $("#register").remove();
-                $("#displayName").html(name);
-                $("#displayName").css("display", "block");
-                username=name;
-            } else {
-                alert("That username is already taken! Please try another.");
-            }
         }
-        /**
-        type: 0 - own message
-        1 - received message
-        **/
         function formatTime(t) {
             if (t < 10) {
                 return '0' + t;
             }
             return t;
         }
-        
+        /**
+        type: 0 - own message
+        1 - received message
+        **/
         function addChatEntry(name, msg, time, type) {
             var date = new Date(time);
             var datestr = `${formatTime(date.getDate())}/${formatTime(date.getMonth())}/${date.getYear()} ${formatTime(date.getHours()%12)}:${formatTime(date.getMinutes())}:${formatTime(date.getSeconds())}${date.getHours()/12 > 0 ? 'PM':'AM'}`;
@@ -215,15 +222,35 @@ if (isset($_POST["ip"])) {
                 return;
             }
             var txt = $("#input").val();
-            addChatEntry(username, txt, new Date().getTime(), 0);
+            lastDate = new Date().getTime();
+            addChatEntry(username, txt, time, 0);
             $("#input").val("");
+            $.post("chatsql.php", {
+                action: "submitData",
+                name: username,
+                msg: txt,
+                time: lastDate
+            }, function(data, status) {
+                try {
+                    var json = JSON.parse(data);
+                } catch (e) {
+                    console.log(e.message);
+                    console.log(data);
+                }
+            });
         }
         function retrieveData() {
             var date = lastDate;
             $.post("chatsql.php", {
-                date: date.getTime()
+                action: "retrieveData",
+                time: date.getTime()
             }, function(data, status) {
-                var json = JSON.parse(data);
+                try {
+                    var json = JSON.parse(data);
+                } catch (e) {
+                    console.log(e.message);
+                    console.log(data);
+                }
             });
         }
     </script>
