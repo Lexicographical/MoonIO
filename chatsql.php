@@ -5,7 +5,6 @@ $db = $cfgdata["database"];
 $user = $cfgdata["user"];
 $pw = $cfgdata["password"];
 $mysqli = initDB();
-
 //if (isset($_POST["date"])) {
 //    // SQL Query
 //    $date = date("Y-m-d G:i:s", $_POST["date"]);
@@ -32,8 +31,8 @@ switch($_POST["action"]) {
         if ($result = $mysqli->query("SELECT * FROM MoonChatUsers WHERE User = '$user'")) {
             echo false;
         } else {
-            $mysqli->query("INSERT INTO MoonChatUsers (User) VALUES ('$user')");
             echo true;
+            $mysqli->query("INSERT INTO MoonChatUsers (User) VALUES ('$user')");
         }
         break;
         

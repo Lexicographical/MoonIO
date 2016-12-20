@@ -179,6 +179,11 @@ table {
     margin-left: 0;
     margin-right: 0;
     border: solid 1px black;
+    transition: background-color 0.3s;
+}
+
+#enter:hover {
+    background-color: #e5e5e5;
 }
 
 .content, .time, .user {

@@ -166,7 +166,6 @@ if (isset($_POST["ip"])) {
                 action: "register",
                 name: name 
             }, function(data, status) {
-                console.log(data);
                 auth = data == 1 ? true : false;
                 if (auth) {
                     $("#inputName").remove();
@@ -181,6 +180,8 @@ if (isset($_POST["ip"])) {
                        });
                     }, 10*1000);
                 } else {
+                    console.log(data);
+                    console.log(data.length);
                     alert("That username is already taken! Please try another.");
                 }
             });
@@ -223,7 +224,7 @@ if (isset($_POST["ip"])) {
             }
             var txt = $("#input").val();
             lastDate = new Date().getTime();
-            addChatEntry(username, txt, time, 0);
+            addChatEntry(username, txt, lastDate, 0);
             $("#input").val("");
             $.post("chatsql.php", {
                 action: "submitData",
