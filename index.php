@@ -190,8 +190,8 @@ if (isset($_POST["ip"])) {
                     }, keepAliveInterval*1000);
                 } else {
 //                    ** UNCOMMENT THIS LATER ON **
-                    console.log("Problem: " + data);
-                    console.log(data.length);
+//                    console.log("Problem: " + data);
+//                    console.log(data.length);
                     alert("That username is already taken! Please try another.");
                 }
             });
@@ -240,7 +240,6 @@ if (isset($_POST["ip"])) {
                 action: "submitData",
                 name: username,
                 msg: txt,
-                time: lastDate
             }, function(data, status) {
                 try {
                     var json = JSON.parse(data);
@@ -257,7 +256,9 @@ if (isset($_POST["ip"])) {
                 time: date.getTime()
             }, function(data, status) {
                 try {
+                    console.log("Retrieved data:\n" + data);
                     var json = JSON.parse(data);
+                    console.log(json);
                 } catch (e) {
                     console.log(e.message);
                     console.log("Data:\n" + data + "\nLength: " + data.length);

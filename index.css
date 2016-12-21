@@ -35,7 +35,7 @@ body {
 }
 
 header {
-    background-color: #4caf50;
+    background-color: #219cf3;
     text-align: center;
     font-size: 3em;
     color: white;
@@ -149,11 +149,11 @@ table {
 }
 
 .chatrow0 {
-    background-color: #90caf9;
+    background-color: #8bc34a;
 }
 
 .chatrow0 .user {
-    color: yellow;
+    color: white;
 }
 
 #inputbox {

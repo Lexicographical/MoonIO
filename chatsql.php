@@ -29,11 +29,9 @@ switch($_POST["action"]) {
     case "submitData":
         $user = formatString($_POST["name"]);
         $msg = formatString($_POST["msg"]);
-        $time = formatString($_POST["time"]);
-        if ($result = $mysqli->query("INERT INTO MoonChat (User, Message, Time) VALUES ('$user', '$msg', '$time')")) {
+        if ($result = $mysqli->query("INSERT INTO MoonChat (User, Message) VALUES ('$user', '$msg')")) {
             echo json_encode($result);
         } else {
-            echo $result;
             echo "Error occured while submitting message.";
         }
         break;
@@ -59,7 +57,6 @@ switch($_POST["action"]) {
 function purgeOld() {
     global $mysqli, $interval;
     $mysqli->query("DELETE FROM MoonChatUsers WHERE Time < NOW() - INTERVAL $interval SECOND");
-    
 }
 
 function formatString($s) {
