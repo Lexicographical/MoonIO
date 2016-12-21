@@ -1,37 +1,22 @@
 <?php
+echo "1";
 $cfgdata = parse_ini_file("sqldb.cfg");
 $host = $cfgdata["host"];
 $db = $cfgdata["database"];
 $user = $cfgdata["user"];
 $pw = $cfgdata["password"];
 $mysqli = initDB();
-//if (isset($_POST["date"])) {
-//    // SQL Query
-//    $date = date("Y-m-d G:i:s", $_POST["date"]);
-//    $arr = array();
-//    if ($result = $mysqli->query("SELECT * FROM MoonChat WHERE Time > $date")) {
-//        while ($row = $result->fetch_row()) {
-//            $arr[] = $row;
-//        }
-//    }
-//    echo json_encode($arr);
-//    
-//} else if (isset($_POST["name"])) {
-//    // Username authentication
-//    $user = $_POST["name"];
-//    if ($result = $mysqli->query("SELECT * FROM MoonChatUsers WHERE User = $user")) {
-//        echo json_encode(false);
-//    }
-//    echo json_encode(true);
-//}
 
 switch($_POST["action"]) {
     case "register":
         $user = formatString($_POST["name"]);
         if ($result = $mysqli->query("SELECT * FROM MoonChatUsers WHERE User = '$user'")) {
-            echo false;
+            echo count($result->fetch_array());
+            echo "3a";
+//            echo 0;
         } else {
-            echo true;
+//            echo" 1;
+            echo "3b";
             $mysqli->query("INSERT INTO MoonChatUsers (User) VALUES ('$user')");
         }
         break;
@@ -40,6 +25,7 @@ switch($_POST["action"]) {
         $user = formatString($_POST["name"]);
 //        $mysqli->query("UPDATE MoonChatUsers SET Time = NOW() WHERE User = '$user'");
         $mysqli->query("INSERT INTO MoonChatUsers (User) VALUES ('$user') ON DUPLICATE KEY UPDATE Time = NOW() WHERE User = '$user'");
+        echo "3c";
         break;
         
     case "submitData":
@@ -66,7 +52,7 @@ switch($_POST["action"]) {
 
 function purgeOld() {
     global $mysqli;
-    $mysqli->query("DELETE FROM MoonChatUsers WHERE DATEDIFF(second, Time, GETDATE()) > 10");
+    $mysqli->query("DELETE FROM MoonChatUsers WHERE DATEDIFF(second, Time, NOW) > 10");
 }
 
 function formatString($s) {
@@ -76,19 +62,20 @@ function formatString($s) {
 function initDB() {
     global $host, $db, $user, $pw;
     $sql = "CREATE TABLE IF NOT EXISTS MoonChat(
+        Id integer(10) AUTO_INCREMENT PRIMARY KEY,
         User varchar(64) NOT NULL,
         Message varchar(1024) NOT NULL,
-        Time timestamp NOT NULL DEFAULT(GETDATE())
+        Time timestamp NOT NULL DEFAULT NOW()
     )";
     $sql1 = "CREATE TABLE IF NOT EXISTS MoonChatUsers(
-        User varchar(64) PRIMARY KEY,
-        Time timestamp NOT NULL DEFAULT(GETDATE())
+        Id integer(10) AUTO_INCREMENT PRIMARY KEY,
+        User varchar(64) NOT NULL UNIQUE,
+        Time timestamp NOT NULL DEFAULT NOW()
     )";
-    $mysqli = new mysqli($host, $user, $pw);
+    $mysqli = new mysqli($host, $user, $pw, $db);
     if ($mysqli->connect_error) {
         die("Failed to connect to chat server.");
     } else {
-        $res=$mysqli->select_db($db);
         $mysqli->query($sql);
         $mysqli->query($sql1);
         return $mysqli;

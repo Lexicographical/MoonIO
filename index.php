@@ -52,7 +52,7 @@ if (isset($_POST["ip"])) {
         <div id="wrapper">
             <fieldset>
                 <legend>Upload</legend>
-                <form action="" method="POST" enctype="multipart/form-data" id="uploadform">
+                <form action="index.php" method="POST" enctype="multipart/form-data" id="uploadform">
                     <input type="file" name="f1" id="f1">
                     <input type="button" id="add" value="More..." onclick="addFileInput()">
                     <input type="submit" value="Submit">
@@ -160,12 +160,14 @@ if (isset($_POST["ip"])) {
             table.appendChild(row);
         }
         function registerUser() {
+            console.log("Attempted to register");
             var name = $("#inputName").val();
             var auth = false;
             $.post("chatsql.php", {
                 action: "register",
                 name: name 
             }, function(data, status) {
+                console.log(data);
                 auth = data == 1 ? true : false;
                 if (auth) {
                     $("#inputName").remove();
