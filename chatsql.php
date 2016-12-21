@@ -4,6 +4,7 @@ $host = $cfgdata["host"];
 $db = $cfgdata["database"];
 $user = $cfgdata["user"];
 $pw = $cfgdata["password"];
+$interval = $cfgdata["keepAliveInterval"];
 $mysqli = initDB();
 purgeOld();
 
@@ -30,7 +31,10 @@ switch($_POST["action"]) {
         $msg = formatString($_POST["msg"]);
         $time = formatString($_POST["time"]);
         if ($result = $mysqli->query("INERT INTO MoonChat (User, Message, Time) VALUES ('$user', '$msg', '$time')")) {
-            
+            echo json_encode($result);
+        } else {
+            echo $result;
+            echo "Error occured while submitting message.";
         }
         break;
         
@@ -44,12 +48,17 @@ switch($_POST["action"]) {
         }
         echo json_encode($arr);
         break;
+        
+    case "retrieveConfig":
+        $arr = array($interval);
+        echo json_encode($arr);
+        break;
                      
 }
 
 function purgeOld() {
-    global $mysqli;
-    $mysqli->query("DELETE FROM MoonChatUsers WHERE Time < NOW() - INTERVAL 10 SECOND");
+    global $mysqli, $interval;
+    $mysqli->query("DELETE FROM MoonChatUsers WHERE Time < NOW() - INTERVAL $interval SECOND");
     
 }
 

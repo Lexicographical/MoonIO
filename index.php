@@ -124,6 +124,13 @@ if (isset($_POST["ip"])) {
             return true;
         });
         var lastDate = new Date();
+        var keepAliveInterval = 10;
+        $.post("chatsql.php", {
+            action: "retrieveConfig"
+        }, function(data, status) {
+            var json = JSON.parse(data);
+            keepAliveInterval = parseInt(json);
+        });
         setInterval(retrieveData(), 50);
         var username;
         function addFileInput() {
@@ -178,13 +185,13 @@ if (isset($_POST["ip"])) {
                             action: "keepAlive",
                             name: name
                        }, function(data, status) {
-                           console.log(data);
+//                           console.log(data);
                        });
-                    }, 10*1000);
+                    }, keepAliveInterval*1000);
                 } else {
 //                    ** UNCOMMENT THIS LATER ON **
-//                    console.log("Problem: " + data);
-//                    console.log(data.length);
+                    console.log("Problem: " + data);
+                    console.log(data.length);
                     alert("That username is already taken! Please try another.");
                 }
             });
