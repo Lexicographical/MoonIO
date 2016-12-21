@@ -1,31 +1,28 @@
 <?php
-echo "1";
 $cfgdata = parse_ini_file("sqldb.cfg");
 $host = $cfgdata["host"];
 $db = $cfgdata["database"];
 $user = $cfgdata["user"];
 $pw = $cfgdata["password"];
 $mysqli = initDB();
+purgeOld();
 
 switch($_POST["action"]) {
     case "register":
         $user = formatString($_POST["name"]);
-        if ($result = $mysqli->query("SELECT * FROM MoonChatUsers WHERE User = '$user'")) {
-            echo count($result->fetch_array());
-            echo "3a";
-//            echo 0;
+        if (mysqli_num_rows($result = $mysqli->query("SELECT * FROM MoonChatUsers WHERE User = '$user'")) > 0) {
+            echo 0;
         } else {
-//            echo" 1;
-            echo "3b";
+            echo 1;
             $mysqli->query("INSERT INTO MoonChatUsers (User) VALUES ('$user')");
         }
         break;
         
     case "keepAlive":
         $user = formatString($_POST["name"]);
-//        $mysqli->query("UPDATE MoonChatUsers SET Time = NOW() WHERE User = '$user'");
-        $mysqli->query("INSERT INTO MoonChatUsers (User) VALUES ('$user') ON DUPLICATE KEY UPDATE Time = NOW() WHERE User = '$user'");
-        echo "3c";
+        $mysqli->query("UPDATE MoonChatUsers SET Time = NOW() WHERE User = '$user'");
+//        $mysqli->query("INSERT INTO MoonChatUsers (User) VALUES ('$user') ON DUPLICATE KEY UPDATE Time = NOW() WHERE User = '$user'");
+        echo "keepAlive: $user";
         break;
         
     case "submitData":
@@ -52,7 +49,8 @@ switch($_POST["action"]) {
 
 function purgeOld() {
     global $mysqli;
-    $mysqli->query("DELETE FROM MoonChatUsers WHERE DATEDIFF(second, Time, NOW) > 10");
+    $mysqli->query("DELETE FROM MoonChatUsers WHERE Time < NOW() - INTERVAL 10 SECOND");
+    
 }
 
 function formatString($s) {

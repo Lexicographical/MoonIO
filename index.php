@@ -38,7 +38,7 @@ if (isset($_POST["ip"])) {
     <head>
         <title>Moon IO</title>
         <link rel = "stylesheet" type = "text/css" href = "index.css">
-        <script src="/lib/jquery.js"></script>
+        <script src="lib/jquery.js"></script>
         <script>
 //            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
 //                window.location="/m";
@@ -160,15 +160,13 @@ if (isset($_POST["ip"])) {
             table.appendChild(row);
         }
         function registerUser() {
-            console.log("Attempted to register");
             var name = $("#inputName").val();
             var auth = false;
             $.post("chatsql.php", {
                 action: "register",
                 name: name 
             }, function(data, status) {
-                console.log(data);
-                auth = data == 1 ? true : false;
+                auth = data == 1;
                 if (auth) {
                     $("#inputName").remove();
                     $("#register").remove();
@@ -179,11 +177,14 @@ if (isset($_POST["ip"])) {
                        $.post("chatsql.php", {
                             action: "keepAlive",
                             name: name
+                       }, function(data, status) {
+                           console.log(data);
                        });
                     }, 10*1000);
                 } else {
-                    console.log(data);
-                    console.log(data.length);
+//                    ** UNCOMMENT THIS LATER ON **
+//                    console.log("Problem: " + data);
+//                    console.log(data.length);
                     alert("That username is already taken! Please try another.");
                 }
             });
@@ -238,7 +239,7 @@ if (isset($_POST["ip"])) {
                     var json = JSON.parse(data);
                 } catch (e) {
                     console.log(e.message);
-                    console.log(data);
+                    console.log("Data:\n" + data + "\nLength: " + data.length);
                 }
             });
         }
@@ -252,7 +253,7 @@ if (isset($_POST["ip"])) {
                     var json = JSON.parse(data);
                 } catch (e) {
                     console.log(e.message);
-                    console.log(data);
+                    console.log("Data:\n" + data + "\nLength: " + data.length);
                 }
             });
         }
