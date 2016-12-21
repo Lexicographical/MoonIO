@@ -37,13 +37,15 @@ switch($_POST["action"]) {
         break;
         
     case "retrieveData":
-        $date = date("Y-m-d G:i:s", formatString($_POST["time"]));
+//        $date = date("Y-m-d H:i:s", formatString($_POST["time"]));
+        $datestr = $_POST["time"];
         $arr = array();
-        if ($result = $mysqli->query("SELECT * FROM MoonChat WHERE Time > $date")) {
+        if ($result = $mysqli->query("SELECT * FROM MoonChat WHERE $datestr - UNIX_TIMESTAMP(TIME) < 0")) {
             while ($row = $result->fetch_row()) {
                 $arr[] = $row;
             }
         }
+//        echo var_dump($arr);
         echo json_encode($arr);
         break;
         

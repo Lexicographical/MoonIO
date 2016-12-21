@@ -126,12 +126,13 @@ if (isset($_POST["ip"])) {
         var lastDate = new Date();
         var keepAliveInterval = 10;
         $.post("chatsql.php", {
-            action: "retrieveConfig"
+            action: "retrieveConfig",
+            time: lastDate.getTime() / 100
         }, function(data, status) {
             var json = JSON.parse(data);
             keepAliveInterval = parseInt(json);
         });
-        setInterval(retrieveData(), 50);
+        setInterval(retrieveData, 50);
         var username;
         function addFileInput() {
             var child1 = document.getElementById("f" + n);
@@ -233,7 +234,10 @@ if (isset($_POST["ip"])) {
                 return;
             }
             var txt = $("#input").val();
-            lastDate = new Date().getTime();
+            if (txt.trim() == "") {
+                return;
+            }
+            lastDate = new Date();
             addChatEntry(username, txt, lastDate, 0);
             $("#input").val("");
             $.post("chatsql.php", {
@@ -250,15 +254,20 @@ if (isset($_POST["ip"])) {
             });
         }
         function retrieveData() {
-            var date = lastDate;
+            var time = lastDate.getTime() / 100;
             $.post("chatsql.php", {
                 action: "retrieveData",
-                time: date.getTime()
+                time: time
             }, function(data, status) {
                 try {
-                    console.log("Retrieved data:\n" + data);
+//                    console.log(data);
                     var json = JSON.parse(data);
-                    console.log(json);
+                    for (var i in json) {
+                        var name = json[i][1];
+                        var msg = json[i][2];
+                        var time = json[i][3];
+                        addChatEntry(name, msg, time, 1);
+                    }
                 } catch (e) {
                     console.log(e.message);
                     console.log("Data:\n" + data + "\nLength: " + data.length);
