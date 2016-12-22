@@ -128,10 +128,8 @@ if (isset($_POST["ip"])) {
         $.post("chatsql.php", {
             action: "retrieveConfig"
         }, function(data, status) {
-            var json = JSON.parse(data);
-            keepAliveInterval = parseInt(json);
+            keepAliveInterval = data;
         });
-        setInterval(retrieveData, 50);
         var username;
         function addFileInput() {
             var child1 = document.getElementById("f" + n);
@@ -194,6 +192,7 @@ if (isset($_POST["ip"])) {
                     $("#displayName").html(name);
                     $("#displayName").css("display", "block");
                     username = name;
+                    setInterval(retrieveData, 50);
                     setInterval(function() {
                        $.post("chatsql.php", {
                             action: "keepAlive",
@@ -258,7 +257,7 @@ if (isset($_POST["ip"])) {
                 msg: txt,
             }, function(data, status) {
                 try {
-                    var result = data;
+                    last_id = data;
                 } catch (e) {
                     console.log(e.message);
                     console.log("Data:\n" + data + "\nLength: " + data.length);

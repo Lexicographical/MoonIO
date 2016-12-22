@@ -5,9 +5,9 @@ $db = $cfgdata["database"];
 $user = $cfgdata["user"];
 $pw = $cfgdata["password"];
 $interval = $cfgdata["keepAliveInterval"];
-$mysqli = initDB();
 $tUsers = "moonchatusers";
 $tChat = "moonchat";
+$mysqli = initDB();
 purgeOld();
 
 switch($_POST["action"]) {
@@ -31,7 +31,7 @@ switch($_POST["action"]) {
         $user = formatString($_POST["name"]);
         $msg = formatString($_POST["msg"]);
         if ($result = $mysqli->query("INSERT INTO $tChat (user, message) VALUES ('$user', '$msg')")) {
-            echo $result;
+            echo getLastId();
         } else {
             echo "Error occured while submitting message.";
         }
@@ -39,7 +39,7 @@ switch($_POST["action"]) {
         
     case "retrieveData":
         $id = $_POST["id"];
-        $arr = array();
+        $arr = array();
         $sql = "SELECT * FROM $tChat WHERE id > $id";
         $result = $mysqli->query($sql);
         if ($mysqli->query($sql) === FALSE){
@@ -57,31 +57,36 @@ switch($_POST["action"]) {
         break;
         
     case "retrieveConfig":
-        $arr = array($interval);
-        echo json_encode($arr);
+        echo $interval;
         break;
 
     case "getLastId":
-        $last_id=0;
-        $result = $mysqli->query("SELECT id FROM $tChat ORDER BY id DESC LIMIT 1");
-        if ($mysqli->query($sql) === FALSE){
-            echo "Error: $sql<br>" . $mysqli->error;
-        } else {
-            if ($result->num_rows == 0) {
-                $last_id=0;
-            } else {
-                while ($row = $result->fetch_row()) {
-                    $last_id=$row[0];
-                }
-            }
-        }
-        echo json_encode($last_id);
+        echo getLastId();
         break;
                      
 }
 
+function getLastId() {
+    global $tChat, $mysqli;  
+    $last_id=0;
+    $sql = "SELECT id FROM $tChat ORDER BY id DESC LIMIT 1";
+    $result = $mysqli->query($sql);
+    if ($mysqli->query($sql) === FALSE){
+        echo "Error: $sql<br>" . $mysqli->error;
+    } else {
+        if ($result->num_rows == 0) {
+            $last_id=0;
+        } else {
+            while ($row = $result->fetch_row()) {
+                $last_id=$row[0];
+            }
+        }
+    }
+    return $last_id;
+}
+
 function purgeOld() {
-    global $mysqli, $interval;
+    global $mysqli, $interval, $tUsers;
     $mysqli->query("DELETE FROM $tUsers WHERE time < NOW() - INTERVAL $interval SECOND");
 }
 
@@ -90,14 +95,14 @@ function formatString($s) {
 }
 
 function initDB() {
-    global $host, $db, $user, $pw;
-    $sql = "CREATE TABLE IF NOT EXISTS $tChat(
+    global $host, $db, $user, $pw, $tChat, $tUsers;
+    $sql = "CREATE TABLE IF NOT EXISTS $tChat (
         id integer(10) AUTO_INCREMENT PRIMARY KEY,
         user varchar(64) NOT NULL,
         message varchar(1024) NOT NULL,
         time timestamp NOT NULL DEFAULT NOW()
     )";
-    $sql1 = "CREATE TABLE IF NOT EXISTS $tUsers(
+    $sql1 = "CREATE TABLE IF NOT EXISTS $tUsers (
         id integer(10) AUTO_INCREMENT PRIMARY KEY,
         user varchar(64) NOT NULL UNIQUE,
         time timestamp NOT NULL DEFAULT NOW()
