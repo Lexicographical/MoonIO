@@ -22,7 +22,6 @@ switch($_POST["action"]) {
     case "keepAlive":
         $user = formatString($_POST["name"]);
         $mysqli->query("UPDATE MoonChatUsers SET Time = NOW() WHERE User = '$user'");
-//        $mysqli->query("INSERT INTO MoonChatUsers (User) VALUES ('$user') ON DUPLICATE KEY UPDATE Time = NOW() WHERE User = '$user'");
         echo "keepAlive: $user";
         break;
         
