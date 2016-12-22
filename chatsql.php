@@ -39,8 +39,9 @@ switch($_POST["action"]) {
         
     case "retrieveData":
         $id = $_POST["id"];
+        $name = $_POST["name"];
         $arr = array();
-        $sql = "SELECT * FROM $tChat WHERE id > $id";
+        $sql = "SELECT * FROM $tChat WHERE id > $id and user != '$name'";
         $result = $mysqli->query($sql);
         if ($mysqli->query($sql) === FALSE){
             echo "Error: $sql<br>" . $mysqli->error;

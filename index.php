@@ -268,6 +268,7 @@ if (isset($_POST["ip"])) {
             $.post("chatsql.php", {
                 action: "retrieveData",
                 id: last_id,
+                name: username
             }, function(data, status) {
                 try {
 //                    console.log(data);
