@@ -123,7 +123,7 @@ if (isset($_POST["ip"])) {
            } 
             return true;
         });
-        var id=0;
+        var last_id=0;
         var keepAliveInterval = 10;
         $.post("chatsql.php", {
             action: "retrieveConfig",
@@ -176,6 +176,21 @@ if (isset($_POST["ip"])) {
             }, function(data, status) {
                 auth = data == 1;
                 if (auth) {
+                    //set last_id
+                    $.post("chatsql.php", {
+                        action: "getLastId",
+                    }, function(data, status) {
+                        try {
+//                      console.log(data);
+                        var json = JSON.parse(data);
+                        last_id=json;
+                        
+                        } catch (e) {
+                        console.log(e.message);
+                        console.log("Data:\n" + data + "\nLength: " + data.length);
+                        }
+                    });
+                    //last_id set
                     $("#inputName").remove();
                     $("#register").remove();
                     $("#displayName").html(name);
@@ -247,18 +262,18 @@ if (isset($_POST["ip"])) {
             }, function(data, status) {
                 try {
                     var json = JSON.parse(data);
-                } catch 
-                (e) {
+                } catch (e) {
                     console.log(e.message);
                     console.log("Data:\n" + data + "\nLength: " + data.length);
                 }
             });
         }
         function retrieveData() {
+            
 
             $.post("chatsql.php", {
                 action: "retrieveData",
-                time: time,
+                id: last_id,
 
             }, function(data, status) {
                 try {
@@ -266,7 +281,7 @@ if (isset($_POST["ip"])) {
                     var json = JSON.parse(data);
                     for (var i in json) {
                         var tid = json[i][0];
-                        id=Math.max(id, tid);
+                        last_id=Math.max(id, tid);
                         var name = json[i][1];
                         var msg = json[i][2];
                         var time = json[i][3];
