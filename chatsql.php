@@ -37,9 +37,9 @@ switch($_POST["action"]) {
         
     case "retrieveData":
 //        $date = date("Y-m-d H:i:s", formatString($_POST["time"]));
-        $datestr = $_POST["time"];
+        $id = $_POST["id"];
         $arr = array();
-        if ($result = $mysqli->query("SELECT * FROM MoonChat WHERE $datestr - UNIX_TIMESTAMP(TIME) < 0")) {
+        if ($result = $mysqli->query("SELECT * FROM MoonChat WHERE Id > $id"){
             while ($row = $result->fetch_row()) {
                 $arr[] = $row;
             }

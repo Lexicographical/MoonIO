@@ -123,7 +123,7 @@ if (isset($_POST["ip"])) {
            } 
             return true;
         });
-        var lastDate = new Date();
+        var id=0;
         var keepAliveInterval = 10;
         $.post("chatsql.php", {
             action: "retrieveConfig",
@@ -237,7 +237,7 @@ if (isset($_POST["ip"])) {
             if (txt.trim() == "") {
                 return;
             }
-            lastDate = new Date();
+
             addChatEntry(username, txt, lastDate, 0);
             $("#input").val("");
             $.post("chatsql.php", {
@@ -247,22 +247,26 @@ if (isset($_POST["ip"])) {
             }, function(data, status) {
                 try {
                     var json = JSON.parse(data);
-                } catch (e) {
+                } catch 
+                (e) {
                     console.log(e.message);
                     console.log("Data:\n" + data + "\nLength: " + data.length);
                 }
             });
         }
         function retrieveData() {
-            var time = lastDate.getTime() / 100;
+
             $.post("chatsql.php", {
                 action: "retrieveData",
-                time: time
+                time: time,
+
             }, function(data, status) {
                 try {
 //                    console.log(data);
                     var json = JSON.parse(data);
                     for (var i in json) {
+                        var tid = json[i][0];
+                        id=Math.max(id, tid);
                         var name = json[i][1];
                         var msg = json[i][2];
                         var time = json[i][3];
