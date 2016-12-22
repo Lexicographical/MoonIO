@@ -123,11 +123,10 @@ if (isset($_POST["ip"])) {
            } 
             return true;
         });
-        var last_id=0;
+        var last_id = 0;
         var keepAliveInterval = 10;
         $.post("chatsql.php", {
-            action: "retrieveConfig",
-            time: lastDate.getTime() / 100
+            action: "retrieveConfig"
         }, function(data, status) {
             var json = JSON.parse(data);
             keepAliveInterval = parseInt(json);
@@ -181,13 +180,12 @@ if (isset($_POST["ip"])) {
                         action: "getLastId",
                     }, function(data, status) {
                         try {
-//                      console.log(data);
-                        var json = JSON.parse(data);
-                        last_id=json;
-                        
+//                         console.log(data);
+                            var json = JSON.parse(data);
+                            last_id=json;
                         } catch (e) {
-                        console.log(e.message);
-                        console.log("Data:\n" + data + "\nLength: " + data.length);
+                            console.log(e.message);
+                            console.log("Data:\n" + data + "\nLength: " + data.length);
                         }
                     });
                     //last_id set
@@ -195,7 +193,7 @@ if (isset($_POST["ip"])) {
                     $("#register").remove();
                     $("#displayName").html(name);
                     $("#displayName").css("display", "block");
-                    username=name;
+                    username = name;
                     setInterval(function() {
                        $.post("chatsql.php", {
                             action: "keepAlive",
@@ -252,8 +250,7 @@ if (isset($_POST["ip"])) {
             if (txt.trim() == "") {
                 return;
             }
-
-            addChatEntry(username, txt, lastDate, 0);
+            addChatEntry(username, txt, new Date().getTime(), 0);
             $("#input").val("");
             $.post("chatsql.php", {
                 action: "submitData",
@@ -261,7 +258,7 @@ if (isset($_POST["ip"])) {
                 msg: txt,
             }, function(data, status) {
                 try {
-                    var json = JSON.parse(data);
+                    var result = data;
                 } catch (e) {
                     console.log(e.message);
                     console.log("Data:\n" + data + "\nLength: " + data.length);
@@ -269,19 +266,16 @@ if (isset($_POST["ip"])) {
             });
         }
         function retrieveData() {
-            
-
             $.post("chatsql.php", {
                 action: "retrieveData",
                 id: last_id,
-
             }, function(data, status) {
                 try {
 //                    console.log(data);
                     var json = JSON.parse(data);
                     for (var i in json) {
                         var tid = json[i][0];
-                        last_id=Math.max(id, tid);
+                        last_id = Math.max(last_id, tid);
                         var name = json[i][1];
                         var msg = json[i][2];
                         var time = json[i][3];
