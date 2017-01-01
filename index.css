@@ -1,33 +1,10 @@
 @font-face{
     font-family: Questrial;
-    src: url("lib/Questrial.ttf");
+    src: url("lib/fonts/Questrial.ttf");
 }
 
 * {
-    font-family: sans-serif;
     font-family: Questrial;
-}
-
-#ip {
-    position: absolute;
-    right: 2%;
-}
-
-#icon {
-    filter: invert(1);
-    filter: -webkit-invert(1);
-    height: 5%;
-    position: absolute;
-    left: 2%;
-}
-
-#home {
-    vertical-align: center;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
 }
 
 body {
@@ -35,182 +12,191 @@ body {
 }
 
 header {
-    background-color: #219cf3;
-    text-align: center;
-    font-size: 3em;
+    background-color:  #219cf3;
     color: white;
     padding: 1%;
+    font-size: 3em;
+    text-align: center;
     cursor: pointer;
 }
 
-#wrapper {
-    display:flex;
-    display: -webkit-flex;
-    align-content: space-between;
-    margin-top: 5%;
+.panel-heading {
+    margin-left: -3%;
+    width: 106%;
+    text-align: center;
 }
 
-fieldset {
-    width: 28%;
-    border: solid 1px black;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 1%;
-    padding-top: 3%;
-    height: 70vh;
-    overflow-y: auto;
-}
-
-fieldset * {
-    margin: 3%;
-}
-
-legend {
+.panel-title {
     font-size: 2em;
 }
 
-input {
-    display: block;
+#headerIcon {
+    filter: invert(1);
+    filter: -webkit-invert(1);
+    height: 5vh;
+    margin-left: 5%;
 }
 
-a {
-    display: block;
-    color: black;
-    text-decoration: none;
-    transition: 0.2s;
+#ip {
+    margin-right: 5%;
 }
 
-input {
-    font-size: 1.2em;
-}
-
-a:hover {
-    color: #00c853;
-}
-
-.size {
-    color: green;
-}
-
-#dltable * {
-    word-wrap: normal;
-}
-
-table {
-    font-size: 1.2em;
-    border: solid 1px black;
-}
-
-.title {
-    font-size: 1.3em;
-}
-
-#inputname, #input {
+#headerText {
     padding: 1%;
-}
-
-#chatbox, #inputbox, #namebox {
-    border: solid 1px black;
-    overflow-y: auto;
-    width: 90%;
-    display:flex;
-    align-content: space-between;
-    margin: 0;
-}
-
-#namebox {
-    display:flex;
-    display: -webkit-flex;
-    flex-direction: row;
-    border-bottom: none;
-    background-color: #c8e6c9;
-    padding-top: 1%;
-    padding-bottom: 1%;
-    align-content: space-between;
-}
-
-#register {
-    font-size: 1.3em;
-}
-
-#chatbox {
-    height: 80%;
-    border-bottom: none;
-    background-color: white;
-    display: block;
-}
-
-.chatrow, .chatrow0 {
-    display:flex;
-    display: -webkit-flex;
-    align-content: space-between;
-    flex-direction: row;
-    background-color: #e0e0e0;
-}
-
-.chatrow0 {
-    background-color: #8bc34a;
-}
-
-.chatrow0 .user {
-    color: white;
-}
-
-#inputbox {
-    padding: 0;
-    margin: 0;
-    display:flex;
-    display: -webkit-flex;
-    flex-direction: row;
-}
-
-#input {
-    width: 95%;
-    resize: none;
-    padding: 0.5vh;
-    align-self: flex-start;
-    margin-left: 0;
-    margin-right: 0;
-    border: none;
-    border-right: solid 1px black;
-}
-
-#enter {
-    margin-left: 0;
-    margin-right: 0;
-    border: solid 1px black;
-    transition: background-color 0.3s;
-}
-
-#enter:hover {
-    background-color: #e5e5e5;
-}
-
-.content, .time, .user {
-    padding: 1%;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.user {
-    color: green;
-    font-weight: bolder;
-}
-
-.content {
-    width: 80%;
-}
-
-.time {
-    width: 20%;
     text-align: right;
-    color: #424242;
+}
+
+section {
+    margin-top: 3vh;
+}
+
+.panel {
+    border: solid 1px black;
+}
+
+#fileUploads * {
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+#dlTable {
+    text-align: center;
+}
+
+.dlHeader {
+    font-size: 1.5em;
     font-weight: bolder;
+}
+
+#headerRow {
+    padding-bottom: 3%;
+    border-bottom: solid black 1px;
+    margin-bottom: 3%;
+}
+
+@media screen and (max-width: 768px){
+    .fsEntry {
+        text-align: center;
+    }
+    .fnEntry {
+        text-align: center;
+    }
+    .fileIcon {
+        height: 10%;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .fsEntry {
+        text-align: right;
+    }
+    .fnEntry {
+        text-align: left;
+        border-right: solid black 1px;
+    }
+    #dlTable {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+    .fileIcon {
+        height: 4%;
+    }
+    .category {
+    margin-left: 6vw;
+}
+}
+
+.fileLink {
+    color: black;
+    font-size: 1.3em;
+    transition: color 0.3s;
+}
+
+.fileLink:hover {
+    color: #00c853;
+    text-decoration: none;
+}
+
+.fileSize {
+    font-size: 1.3em;
+    color: green;
+}
+
+.fsUnit {
+    font-size: 1.3em;
+}
+
+.fileIcon {
+    height: 4%;
+    border-radius: 50%;
+    border: solid black 1px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+#inputName, #register {
+    padding: 1%;
+}
+
+#chatBody {
+    margin-top: 3%;
+    margin-bottom: 3%;
 }
 
 #displayName {
     display: none;
-    font-size: 1.3em;
-    color: black;
     font-weight: bolder;
+    font-size: 2em;
+}
+
+#registerPane {
+    background-color: #ffcdd2;
+    padding: 3%;
+    border: solid black 1px;
+}
+
+#messagesBox {
+    border: solid black 1px;
+    border-top: none;
+    padding: 5%;
+    height: 55vh;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+#inputBox {
+    border: solid black 1px;
+    border-top: none;
+}
+
+.chatrow, .chatrow0 {
+    background-color: #2ecc71;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding: 1%;
+    font-size: 1.3em;
+}
+
+.chatrow0 {
+    background-color: #bdc3c7;
+}
+
+.user {
+    color: white;
+}
+
+#input {
+    resize: none;
+    border: none;
+}
+
+#enter {
+    height: 4%;
+    border: solid black 1px;
+    transition: color 0.3s;
+}
+
+#enter:hover {
+    background-color: #e5e5e5;
+    border: solid black 1px;
 }
