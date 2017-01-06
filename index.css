@@ -3,8 +3,13 @@
     src: url("lib/fonts/Questrial.ttf");
 }
 
+@font-face {
+    font-family: Ubuntu;
+    src: url("lib/fonts/Ubuntu.ttf");
+}
+
 * {
-    font-family: Questrial;
+    font-family: Ubuntu;
 }
 
 body {
@@ -12,7 +17,7 @@ body {
 }
 
 header {
-    background-color:  #219cf3;
+    background-color: #3498db;
     color: white;
     padding: 1%;
     font-size: 3em;
@@ -24,6 +29,7 @@ header {
     margin-left: -3%;
     width: 106%;
     text-align: center;
+    font-family: Questrial;
 }
 
 .panel-title {
@@ -39,11 +45,13 @@ header {
 
 #ip {
     margin-right: 5%;
+    font-family: Questrial;
 }
 
 #headerText {
     padding: 1%;
     text-align: right;
+    font-family: Questrial;
 }
 
 section {
@@ -102,8 +110,8 @@ section {
         height: 4%;
     }
     .category {
-    margin-left: 6vw;
-}
+        margin-left: 6vw;
+    }
 }
 
 .fileLink {
@@ -150,7 +158,8 @@ section {
 }
 
 #registerPane {
-    background-color: #ffcdd2;
+    /*background-color: #ffcdd2;*/
+    background-color: #BBDEFB;
     padding: 3%;
     border: solid black 1px;
 }
@@ -185,13 +194,18 @@ section {
     color: white;
 }
 
+#inputBox {
+    display: flex;
+    flex-flow: row;
+}
+
 #input {
     resize: none;
     border: none;
 }
 
 #enter {
-    height: 4%;
+    /*height: 4%;*/
     border: solid black 1px;
     transition: color 0.3s;
 }
@@ -199,4 +213,13 @@ section {
 #enter:hover {
     background-color: #e5e5e5;
     border: solid black 1px;
+}
+
+@media screen and (max-width: 768px){
+    #input {
+        height: 10vh;
+    }
+    #enter {
+        width: 40%;
+    }
 }
